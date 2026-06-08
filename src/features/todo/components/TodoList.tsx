@@ -1,17 +1,10 @@
 import TodoItem from './TodoItem.tsx'
-import type { Index } from "../types";
+import { useTodoStore } from "../store/todoStore";
 
-type Props = {
-  todos: Index[];
-  deleteTodo: (id: number) => void;
-  toggleTodo: (id: number) => void;
-}
+function TodoList() {
 
-function TodoList({
-                    todos,
-                    deleteTodo,
-                    toggleTodo
-                  }: Props) {
+  const todos = useTodoStore((state) => state.todos);
+
   return (
     <div>
       {
@@ -19,8 +12,6 @@ function TodoList({
           <TodoItem
             key={todo.id}
             todo={todo}
-            deleteTodo={deleteTodo}
-            toggleTodo={toggleTodo}
           />
         ))
       }

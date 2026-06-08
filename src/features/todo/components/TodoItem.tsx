@@ -1,16 +1,18 @@
-import type { Index } from "../types";
+import { useTodoStore } from '../store/todoStore.ts'
+import type { Todo } from "../types";
 
 type Props = {
-  todo: Index;
-  deleteTodo: (id: number) => void;
-  toggleTodo: (id: number) => void;
-};
+  todo: Todo;
+}
 
 function TodoItem({
-                    todo,
-                    deleteTodo,
-                    toggleTodo
+                    todo
                   }: Props) {
+
+  const deleteTodo = useTodoStore(state => state.deleteTodo);
+  const toggleTodo = useTodoStore(state => state.toggleTodo);
+
+
   return (
     <div
       style={{

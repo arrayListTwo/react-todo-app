@@ -1,11 +1,11 @@
 import { create } from 'zustand'
-import type { Todo } from '../types/index.ts'
+import type { Todo } from '../types'
 
 type TodoStore = {
   todos: Todo[];
   addTodo: (text: string) => void;
+  deleteTodo: (id: number) => void;
   toggleTodo: (id: number) => void;
-  removeTodo: (id: number) => void;
 }
 
 export const useTodoStore =
@@ -25,7 +25,7 @@ export const useTodoStore =
         ]
       })),
     // 删除任务
-    removeTodo: (id) =>
+    deleteTodo: (id) =>
       set((state) => ({
         todos:
           state.todos.filter((todo) => todo.id !== id)
