@@ -3,3 +3,5 @@ export type Todo = {
   text: string; // 任务内容
   completed: boolean; // 任务是否完成
 };
+
+export type Filter = 'all' | 'active' | 'completed'
