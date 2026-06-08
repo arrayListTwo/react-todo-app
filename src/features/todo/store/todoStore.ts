@@ -7,6 +7,7 @@ type TodoStore = {
   addTodo: (text: string) => void;
   deleteTodo: (id: number) => void;
   toggleTodo: (id: number) => void;
+  updateTodo: (id: number, text: string) => void;
 }
 
 export const useTodoStore =
@@ -38,7 +39,15 @@ export const useTodoStore =
           set((state) => ({
             todos:
               state.todos.map((todo) =>
-                todo.id === id ? {...todo, completed: !todo.completed} : todo
+                todo.id === id ? { ...todo, completed: !todo.completed } : todo
+              )
+          })),
+        // 更新任务内容
+        updateTodo: (id, text) =>
+          set((state) => ({
+            todos:
+              state.todos.map((todo) =>
+                todo.id === id ? { ...todo, text } : todo
               )
           }))
       }),
