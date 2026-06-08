@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 import type { Todo } from '../types'
 
 type TodoStore = {
@@ -9,33 +10,40 @@ type TodoStore = {
 }
 
 export const useTodoStore =
-  create<TodoStore>((set) => ({
-    // 存储任务列表
-    todos: [],
-    // 添加任务
-    addTodo: (text) =>
-      set((state) => ({
-        todos: [
-          {
-            id: Date.now(),
-            text,
-            completed: false
-          },
-          ...state.todos
-        ]
-      })),
-    // 删除任务
-    deleteTodo: (id) =>
-      set((state) => ({
-        todos:
-          state.todos.filter((todo) => todo.id !== id)
-      })),
-    // 切换任务完成状态
-    toggleTodo: (id) =>
-      set((state) => ({
-        todos:
-          state.todos.map((todo) =>
-            todo.id === id ? {...todo, completed: !todo.completed} : todo
-          )
-      }))
-  }))
+  create<TodoStore>()(
+    persist(
+      (set) => ({
+        // 存储任务列表
+        todos: [],
+        // 添加任务
+        addTodo: (text) =>
+          set((state) => ({
+            todos: [
+              {
+                id: Date.now(),
+                text,
+                completed: false
+              },
+              ...state.todos
+            ]
+          })),
+        // 删除任务
+        deleteTodo: (id) =>
+          set((state) => ({
+            todos:
+              state.todos.filter((todo) => todo.id !== id)
+          })),
+        // 切换任务完成状态
+        toggleTodo: (id) =>
+          set((state) => ({
+            todos:
+              state.todos.map((todo) =>
+                todo.id === id ? {...todo, completed: !todo.completed} : todo
+              )
+          }))
+      }),
+      {
+        name: 'todo-storage'
+      }
+    )
+  )
