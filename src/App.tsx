@@ -2,8 +2,9 @@ import TodoInput from "./features/todo/components/TodoInput.tsx";
 import TodoList from "./features/todo/components/TodoList.tsx";
 import TodoSearch from './features/todo/components/TodoSearch.tsx'
 import TodoFilter from './features/todo/components/TodoFilter.tsx'
+import TodoStats from './features/todo/components/TodoStats.tsx'
 import { useTodoStore } from './features/todo/store/todoStore.ts'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import type { Filter } from './features/todo/types'
 
 function App() {
@@ -11,6 +12,17 @@ function App() {
   const [ keyword, setKeyword ] = useState('')
   const [ filter, setFilter ] = useState<Filter>('all')
   const todos = useTodoStore(state => state.todos)
+
+  const state = useMemo(() => {
+    const total = todos.length
+    const activeCount = todos.filter(todo => !todo.completed).length
+    const completedCount = todos.filter(todo => todo.completed).length
+    return {
+      total,
+      activeCount,
+      completedCount
+    }
+  }, [ todos ])
 
   // 筛选任务
   const filteredTodos = todos.filter(todo => {
@@ -44,6 +56,11 @@ function App() {
         onFilterChange={ setFilter }
       />
       <TodoInput/>
+      <TodoStats
+        total={ state.total }
+        active={ state.activeCount }
+        completed={ state.completedCount }
+      />
       <TodoList filteredTodos={ filteredTodos }/>
     </div>
   )
