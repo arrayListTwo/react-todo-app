@@ -13,6 +13,13 @@ function App() {
 
   return (
     <div style={{padding: 40}}>
+
+      <div className="p-10">
+        <h1 className="text-3xl font-bold">
+          Tailwind OK
+        </h1>
+      </div>
+
       <h1>Todo List</h1>
 
       <TodoInput addTodo={addTodo}/>
