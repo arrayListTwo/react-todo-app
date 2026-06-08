@@ -1,7 +1,7 @@
-import type { Todo } from "../types/todo.ts";
+import type { Index } from "../types";
 
 type Props = {
-  todo: Todo;
+  todo: Index;
   deleteTodo: (id: number) => void;
   toggleTodo: (id: number) => void;
 };

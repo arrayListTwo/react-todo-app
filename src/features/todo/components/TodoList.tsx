@@ -1,8 +1,8 @@
-import TodoItem from './TodoItem'
-import type { Todo } from "../types/todo.ts";
+import TodoItem from './TodoItem.tsx'
+import type { Index } from "../types";
 
 type Props = {
-  todos: Todo[];
+  todos: Index[];
   deleteTodo: (id: number) => void;
   toggleTodo: (id: number) => void;
 }
