@@ -1,6 +1,6 @@
 import { useTodoStore } from '../store/todoStore.ts'
 import type { Todo } from "../types";
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 type Props = {
   todo: Todo;
@@ -14,8 +14,19 @@ function TodoItem({
   const toggleTodo = useTodoStore(state => state.toggleTodo);
   const updateTodo = useTodoStore(state => state.updateTodo);
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const [ editing, setEditing ] = useState(false);
   const [ editText, setEditText ] = useState(todo.text);
+
+  useEffect(() => {
+    if (editing && inputRef.current) {
+      // 自动聚焦
+      inputRef.current.focus();
+      // 选中文本
+      inputRef.current.select();
+    }
+  }, [ editing ]);
 
   const handleSave = () => {
     const text = editText.trim()
@@ -40,6 +51,7 @@ function TodoItem({
       {
         editing ? (
           <input
+            ref={ inputRef }
             value={ editText }
             onChange={ (e) => setEditText(e.target.value) }
             onKeyDown={ (e) => {
